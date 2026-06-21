@@ -1,0 +1,103 @@
+/* ============================================================
+   עוגן — Design Tokens
+   Aesthetic: Quiet Luxury × Institutional Trust
+   Single source of truth for color, type, space, motion.
+   ============================================================ */
+
+:root {
+  /* ---------- Brand color (from brand guidelines) ---------- */
+  --copper:        #A9764B;  /* primary accent */
+  --copper-light:  #C0925F;  /* hover / lighter accent */
+  --copper-bright: #D4A878;  /* on dark backgrounds, text accent */
+  --copper-dark:   #8C5E37;  /* pressed */
+  --copper-deep:   #5E3F25;  /* deep accent, borders on light */
+
+  --charcoal:      #3A3D42;  /* brand charcoal */
+  --charcoal-800:  #2F3236;  /* hero base */
+  --charcoal-900:  #25282C;  /* deepest panels */
+  --charcoal-950:  #1C1E21;  /* footer */
+
+  --gray:          #A8A8A6;  /* brand gray — secondary text */
+  --gray-400:      #BFBFBC;
+  --gray-200:      #DAD9D5;
+
+  --cream:         #F8F8F6;  /* brand off-white — page bg */
+  --cream-warm:    #F1EEE8;  /* warm card bg */
+  --cream-deep:    #E9E5DD;  /* warm divider / inset */
+  --white:         #FFFFFF;
+
+  --ink:           #26282C;  /* body text on light */
+  --ink-soft:      #54565A;  /* secondary text on light */
+
+  /* ---------- Semantic surfaces ---------- */
+  --bg:            var(--cream);
+  --bg-dark:       var(--charcoal-800);
+  --surface:       var(--white);
+  --surface-warm:  var(--cream-warm);
+  --text:          var(--ink);
+  --text-soft:     var(--ink-soft);
+  --text-on-dark:        #EDEBE6;
+  --text-on-dark-soft:   #A9ABAE;
+  --accent:        var(--copper);
+
+  /* ---------- Hairlines & borders ---------- */
+  --line:          rgba(38, 40, 44, 0.10);
+  --line-strong:   rgba(38, 40, 44, 0.18);
+  --line-on-dark:  rgba(255, 255, 255, 0.12);
+  --line-accent:   rgba(169, 118, 75, 0.40);
+
+  /* ---------- Typography ---------- */
+  --font-display: "Heebo", system-ui, sans-serif;
+  --font-body:    "Heebo", system-ui, sans-serif;
+  --font-serif:   "Frank Ruhl Libre", Georgia, serif;
+
+  /* Fluid type ramp (mobile → desktop) */
+  --fs-eyebrow:  0.8125rem;                          /* 13px labels */
+  --fs-small:    0.9375rem;                          /* 15px */
+  --fs-body:     clamp(1rem, 0.96rem + 0.2vw, 1.125rem);     /* 16→18 */
+  --fs-lead:     clamp(1.125rem, 1.02rem + 0.5vw, 1.375rem); /* 18→22 */
+  --fs-h3:       clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);   /* 20→26 */
+  --fs-h2:       clamp(1.75rem, 1.35rem + 1.9vw, 3rem);      /* 28→48 */
+  --fs-h1:       clamp(2.25rem, 1.5rem + 3.6vw, 4.25rem);    /* 36→68 */
+  --fs-mega:     clamp(4.5rem, 2.5rem + 9vw, 9rem);          /* the "30" */
+
+  --lh-tight:   1.05;
+  --lh-snug:    1.2;
+  --lh-normal:  1.6;
+  --tracking-eyebrow: 0.18em;
+  --tracking-tight:  -0.01em;
+
+  /* ---------- Spacing scale (8pt) ---------- */
+  --sp-1:  0.25rem;
+  --sp-2:  0.5rem;
+  --sp-3:  0.75rem;
+  --sp-4:  1rem;
+  --sp-5:  1.5rem;
+  --sp-6:  2rem;
+  --sp-7:  3rem;
+  --sp-8:  4rem;
+  --sp-9:  6rem;
+  --sp-10: 8rem;
+  --section-y: clamp(4rem, 2rem + 8vw, 8rem);  /* vertical section rhythm */
+  --container: 1180px;
+  --gutter: clamp(1.25rem, 0.5rem + 3vw, 3rem);
+
+  /* ---------- Radius ---------- */
+  --r-sm:  6px;
+  --r-md:  12px;
+  --r-lg:  20px;
+  --r-pill: 999px;
+
+  /* ---------- Shadow (warm, low, no glow) ---------- */
+  --shadow-sm: 0 1px 2px rgba(38, 40, 44, 0.06);
+  --shadow-md: 0 10px 30px -12px rgba(38, 40, 44, 0.18);
+  --shadow-lg: 0 30px 60px -25px rgba(38, 40, 44, 0.30);
+  --shadow-copper: 0 14px 30px -12px rgba(169, 118, 75, 0.45);
+
+  /* ---------- Motion ---------- */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 0.18s;
+  --dur: 0.32s;
+  --dur-slow: 0.6s;
+}

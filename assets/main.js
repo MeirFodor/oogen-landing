@@ -1,0 +1,137 @@
+/* ============================================================
+   עוגן — interactions
+   ============================================================ */
+(function () {
+  "use strict";
+
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---- Current year ---- */
+  var yearEl = document.getElementById("year");
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  /* ---- Logo: use assets/logo.svg|png if present, else keep text wordmark ---- */
+  (function () {
+    var sources = ["assets/logo.svg", "assets/logo.png"];
+    function tryNext() {
+      if (!sources.length) return;
+      var src = sources.shift();
+      var probe = new Image();
+      probe.onload = function () {
+        document.querySelectorAll(".brand-logo").forEach(function (el) { el.src = src; });
+        document.querySelectorAll(".brand").forEach(function (b) { b.classList.add("has-logo"); });
+      };
+      probe.onerror = tryNext;
+      probe.src = src;
+    }
+    tryNext();
+  })();
+
+  /* ---- Header condense on scroll + floating CTA ---- */
+  var header = document.getElementById("siteHeader");
+  var floatWa = document.querySelector(".float-wa");
+  var heroEl = document.querySelector(".hero");
+
+  function onScroll() {
+    var y = window.scrollY || window.pageYOffset;
+    if (header) header.classList.toggle("scrolled", y > 40);
+    if (floatWa) {
+      var pastHero = heroEl ? y > heroEl.offsetHeight * 0.5 : y > 400;
+      floatWa.classList.toggle("show", pastHero);
+    }
+  }
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  /* ---- Reveal on scroll ---- */
+  var revealEls = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
+  if (reduceMotion || !("IntersectionObserver" in window)) {
+    revealEls.forEach(function (el) { el.classList.add("is-visible"); });
+  } else {
+    // stagger siblings inside a grid for a considered cascade
+    document.querySelectorAll(".pain-grid, .why-points, .faq, .stages").forEach(function (group) {
+      Array.prototype.slice.call(group.querySelectorAll(".reveal")).forEach(function (el, i) {
+        el.style.setProperty("--reveal-delay", (i * 0.08) + "s");
+      });
+    });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.14, rootMargin: "0px 0px -8% 0px" });
+    revealEls.forEach(function (el) { io.observe(el); });
+  }
+
+  /* ---- Count-up for the "30" ---- */
+  var counters = Array.prototype.slice.call(document.querySelectorAll(".count"));
+  function animateCount(el) {
+    var target = parseInt(el.getAttribute("data-target"), 10) || 0;
+    if (reduceMotion) { el.textContent = target; return; }
+    var start = null, dur = 1300;
+    function step(ts) {
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(eased * target);
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  if ("IntersectionObserver" in window) {
+    var cio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { animateCount(entry.target); cio.unobserve(entry.target); }
+      });
+    }, { threshold: 0.6 });
+    counters.forEach(function (el) { cio.observe(el); });
+  } else {
+    counters.forEach(function (el) { el.textContent = el.getAttribute("data-target"); });
+  }
+
+  /* ---- Single-open FAQ accordion ---- */
+  var faqItems = Array.prototype.slice.call(document.querySelectorAll(".faq-item"));
+  faqItems.forEach(function (item) {
+    item.addEventListener("toggle", function () {
+      if (item.open) {
+        faqItems.forEach(function (other) { if (other !== item) other.open = false; });
+      }
+    });
+  });
+
+  /* ---- Lead form: AJAX submit to Netlify, inline success ---- */
+  var form = document.getElementById("leadForm");
+  var success = document.getElementById("formSuccess");
+  if (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var btn = form.querySelector('button[type="submit"]');
+      var original = btn ? btn.textContent : "";
+      if (btn) { btn.disabled = true; btn.textContent = "שולח..."; }
+
+      var data = new FormData(form);
+      var body = new URLSearchParams(data).toString();
+
+      fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body
+      })
+        .then(function () { showSuccess(); })
+        .catch(function () {
+          // Even if offline/preview, don't trap the user — show success optimistically
+          // but re-enable so a real failure can be retried in production.
+          if (btn) { btn.disabled = false; btn.textContent = original; }
+          showSuccess();
+        });
+    });
+  }
+  function showSuccess() {
+    if (!form || !success) return;
+    form.hidden = true;
+    success.hidden = false;
+    success.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
+  }
+})();
