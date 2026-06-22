@@ -211,34 +211,24 @@ p, li, blockquote { text-wrap: pretty; }
   isolation: isolate;
 }
 .hero-bg { position: absolute; inset: 0; z-index: -1; overflow: hidden; }
-/* refined dark base — a real atmosphere photo can layer on top later */
+.hero-photo {
+  position: absolute; inset: -15% 0;
+  background-image: url('images/hero.jpg');
+  background-size: cover; background-position: 32% center;
+  will-change: transform;
+}
+/* legibility overlay: darker on the text side (right, RTL), reveals the tower on the left */
 .hero-bg::after {
   content: ""; position: absolute; inset: 0;
   background:
-    radial-gradient(130% 100% at 82% -10%, rgba(169,118,75,0.20), transparent 50%),
-    linear-gradient(165deg, #3b3e43 0%, #303338 40%, #25282c 78%, #1f2225 100%);
-}
-.hero-photo {
-  position: absolute; inset: 0;
-  background-size: cover; background-position: center;
-  opacity: 0.22;
-  mix-blend-mode: luminosity;
-  /* texture placeholder until a real photo is added (set background-image on .hero-bg) */
-  background-image:
-    radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.05), transparent),
-    radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,0.04), transparent);
+    linear-gradient(to left, rgba(26,28,31,0.92) 0%, rgba(26,28,31,0.66) 36%, rgba(26,28,31,0.30) 70%, rgba(26,28,31,0.50) 100%),
+    linear-gradient(180deg, rgba(26,28,31,0.30) 0%, transparent 30%, rgba(26,28,31,0.55) 100%);
 }
 .hero-glow {
   position: absolute; top: -15%; inset-inline-start: -5%;
   width: 55%; height: 70%;
-  background: radial-gradient(closest-side, rgba(169,118,75,0.16), transparent 72%);
+  background: radial-gradient(closest-side, rgba(169,118,75,0.14), transparent 72%);
   filter: blur(20px);
-}
-/* subtle bottom fade so the hero melts into the page */
-.hero::after {
-  content: ""; position: absolute; inset: auto 0 0 0; height: 120px;
-  background: linear-gradient(transparent, rgba(31,34,37,0.0));
-  pointer-events: none;
 }
 
 .hero-inner { position: relative; max-width: 880px; }
@@ -680,6 +670,102 @@ p, li, blockquote { text-wrap: pretty; }
 .float-wa.show { opacity: 1; transform: translateY(0); }
 .float-wa:hover { background: var(--copper-light); }
 .float-wa svg { width: 26px; height: 26px; flex: none; }
+
+/* ============================================================
+   SECTION NUMBERS (anchor-points motif)
+   ============================================================ */
+.eyebrow:has(.sec-num)::before { display: none; }
+.sec-num {
+  position: relative;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  padding-inline-end: 2.1em;
+  color: var(--copper-dark);
+}
+.sec-num::after {
+  content: ""; position: absolute; inset-inline-end: 0.6em; top: 50%;
+  width: 20px; height: 2px; background: var(--copper); transform: translateY(-50%);
+}
+.eyebrow-light .sec-num { color: var(--copper-bright); }
+.eyebrow-light .sec-num::after { background: var(--copper-bright); }
+
+/* ============================================================
+   FULL-BLEED IMAGE SECTIONS (cinematic)
+   ============================================================ */
+.parallax { will-change: transform; }
+
+/* sections that carry a background photo (solution, cta) */
+.section.has-bg { position: relative; isolation: isolate; }
+.section.has-bg > .container { position: relative; z-index: 2; }
+.section-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.section-bg-img {
+  position: absolute; left: 0; right: 0; top: -20%; height: 140%;
+  background-size: cover; background-position: center;
+}
+.section-dark.has-bg .section-bg::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(25,28,31,0.90) 0%, rgba(25,28,31,0.84) 45%, rgba(25,28,31,0.92) 100%);
+}
+.section-cta.has-bg .section-bg::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(90% 70% at 15% 10%, rgba(169,118,75,0.22), transparent 55%),
+    linear-gradient(180deg, rgba(26,28,31,0.86), rgba(20,22,25,0.93));
+}
+
+/* cinematic divider strip */
+.strip {
+  position: relative; isolation: isolate; overflow: hidden;
+  min-height: clamp(220px, 32vh, 360px);
+  display: grid; place-items: center;
+}
+.strip-bg {
+  position: absolute; left: 0; right: 0; top: -25%; height: 150%;
+  background-size: cover; background-position: center 62%; z-index: 0;
+}
+.strip::after {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(rgba(24,26,29,0.52), rgba(24,26,29,0.68));
+}
+.strip-inner { position: relative; z-index: 2; text-align: center; }
+.strip-text {
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 1rem + 2.4vw, 2.7rem);
+  color: #fff; letter-spacing: 0;
+}
+
+/* full-bleed atmosphere statement band */
+.atmos {
+  position: relative; isolation: isolate; overflow: hidden;
+  min-height: clamp(440px, 72vh, 700px);
+  display: grid; place-items: center;
+  color: var(--text-on-dark);
+}
+.atmos-bg {
+  position: absolute; left: 0; right: 0; top: -20%; height: 140%;
+  background-size: cover; background-position: center; z-index: 0;
+}
+.atmos::after {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(to left, rgba(22,24,27,0.86) 0%, rgba(22,24,27,0.55) 58%, rgba(22,24,27,0.42) 100%);
+}
+.atmos-inner {
+  position: relative; z-index: 2; text-align: center;
+  max-width: 940px; padding-block: var(--sp-8);
+}
+.atmos-quote {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 1.1rem + 3vw, 3.4rem);
+  line-height: 1.18; color: #fff; letter-spacing: 0;
+  margin-top: var(--sp-4);
+}
+
+/* founder photo (now a real image) */
+.founder-photo img {
+  width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
+  border-radius: var(--r-lg); box-shadow: var(--shadow-lg);
+  display: block;
+}
 
 /* ============================================================
    REVEAL ANIMATION

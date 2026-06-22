@@ -43,6 +43,30 @@
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
 
+  /* ---- Parallax on background image layers ---- */
+  var parallaxEls = Array.prototype.slice.call(document.querySelectorAll(".parallax"));
+  var parallaxTicking = false;
+  function runParallax() {
+    var vh = window.innerHeight;
+    parallaxEls.forEach(function (el) {
+      var host = el.parentElement;
+      var r = host.getBoundingClientRect();
+      if (r.bottom < -120 || r.top > vh + 120) return; // skip offscreen
+      var speed = parseFloat(el.getAttribute("data-speed")) || 0.12;
+      var offset = (r.top + r.height / 2) - (vh / 2);
+      el.style.transform = "translate3d(0," + (offset * speed).toFixed(1) + "px,0)";
+    });
+    parallaxTicking = false;
+  }
+  function requestParallax() {
+    if (!parallaxTicking) { parallaxTicking = true; requestAnimationFrame(runParallax); }
+  }
+  if (!reduceMotion && parallaxEls.length) {
+    runParallax();
+    window.addEventListener("scroll", requestParallax, { passive: true });
+    window.addEventListener("resize", requestParallax, { passive: true });
+  }
+
   /* ---- Reveal on scroll ---- */
   var revealEls = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
   if (reduceMotion || !("IntersectionObserver" in window)) {

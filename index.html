@@ -44,8 +44,7 @@
     <!-- ============ HERO ============ -->
     <section class="hero">
       <div class="hero-bg" aria-hidden="true">
-        <!-- שלב הבא: כאן תיכנס תמונת אווירה. להוסיף ל-.hero-bg:  background-image: url('assets/hero.jpg'); -->
-        <div class="hero-photo"></div>
+        <div class="hero-photo parallax" data-speed="0.14"></div>
         <div class="hero-glow"></div>
       </div>
 
@@ -75,7 +74,7 @@
     <section class="section" id="problem">
       <div class="container">
         <header class="section-head reveal">
-          <p class="eyebrow">האתגר</p>
+          <p class="eyebrow"><span class="sec-num">01</span>האתגר</p>
           <h2 class="section-title">בניתם פרויקט יוקרתי. מה קורה ביום שאחרי המסירה?</h2>
           <p class="section-lead">
             ברגע שהנכס עובר לחברת הניהול, השליטה עוברת איתו — בדיוק במקום שבו נשחק הכסף שלכם.
@@ -131,11 +130,22 @@
       </div>
     </section>
 
+    <!-- ============ CINEMATIC STRIP ============ -->
+    <section class="strip" aria-label="הדיוק שלנו">
+      <div class="strip-bg parallax" data-speed="0.12" style="background-image:url('assets/images/detail.jpg')"></div>
+      <div class="container strip-inner reveal">
+        <p class="strip-text">כל פרט נבדק. כל שקל מוצדק.</p>
+      </div>
+    </section>
+
     <!-- ============ SOLUTION ============ -->
-    <section class="section section-dark" id="solution">
+    <section class="section section-dark has-bg" id="solution">
+      <div class="section-bg" aria-hidden="true">
+        <div class="section-bg-img parallax" data-speed="0.12" style="background-image:url('assets/images/hall.jpg')"></div>
+      </div>
       <div class="container">
         <header class="section-head section-head-center reveal">
-          <p class="eyebrow eyebrow-light">הפתרון</p>
+          <p class="eyebrow eyebrow-light"><span class="sec-num">02</span>הפתרון</p>
           <h2 class="section-title">מפקחי-העל של הנכס, לאורך כל חיי הפרויקט</h2>
           <p class="section-lead section-lead-light">
             אנחנו לא חברת ניהול. אנחנו הצד היחיד בשולחן שאינטרס שלו זהה לחלוטין לשלכם.
@@ -181,7 +191,7 @@
     <section class="section" id="why">
       <div class="container">
         <header class="section-head reveal">
-          <p class="eyebrow">למה עוגן</p>
+          <p class="eyebrow"><span class="sec-num">03</span>למה עוגן</p>
           <h2 class="section-title">סמכות שנבנתה לאורך שלושה עשורים</h2>
         </header>
 
@@ -216,11 +226,20 @@
       </div>
     </section>
 
+    <!-- ============ ATMOSPHERE BAND ============ -->
+    <section class="atmos" aria-label="עוגן יציבות">
+      <div class="atmos-bg parallax" data-speed="0.14" style="background-image:url('assets/images/pavilion.jpg')"></div>
+      <div class="container atmos-inner reveal">
+        <p class="eyebrow eyebrow-light">שקט תעשייתי</p>
+        <p class="atmos-quote">כשהשוק זז, הספקים מתחלפים והעלויות מטפסות — הנכס שלכם נשאר מעוגן.</p>
+      </div>
+    </section>
+
     <!-- ============ FAQ / OBJECTIONS ============ -->
     <section class="section section-warm" id="faq">
       <div class="container container-narrow">
         <header class="section-head reveal">
-          <p class="eyebrow">שאלות שעולות</p>
+          <p class="eyebrow"><span class="sec-num">04</span>שאלות שעולות</p>
           <h2 class="section-title">התשובות — לפני שתשאלו</h2>
         </header>
 
@@ -248,16 +267,12 @@
     <!-- ============ FOUNDER ============ -->
     <section class="section section-founder" id="founder">
       <div class="container founder-inner">
-        <div class="founder-photo reveal" aria-hidden="true">
-          <!-- TODO: החליפו בתמונת המייסד. כרגע placeholder. -->
-          <div class="founder-photo-ph">
-            <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-              <circle cx="40" cy="30" r="14"/><path d="M14 68c4-15 14-22 26-22s22 7 26 22"/>
-            </svg>
-          </div>
+        <div class="founder-photo reveal">
+          <!-- ניתן להחליף בתמונה אמיתית של המייסדים כשתהיה. -->
+          <img src="assets/images/lobby.jpg" alt="לובי במתחם יוקרה" loading="lazy" />
         </div>
         <div class="founder-text reveal">
-          <p class="eyebrow">מי עומד מאחורי עוגן</p>
+          <p class="eyebrow"><span class="sec-num">05</span>מי עומד מאחורי עוגן</p>
           <h2 class="section-title">ניסיון שלא ניתן לזייף</h2>
           <p class="founder-bio">
             נתי מצגר ומשולם פודור מביאים יחד שלושה עשורים של עבודה מעשית בלב תעשיית
@@ -270,7 +285,10 @@
     </section>
 
     <!-- ============ FINAL CTA + FORM ============ -->
-    <section class="section section-cta" id="contact">
+    <section class="section section-cta has-bg" id="contact">
+      <div class="section-bg" aria-hidden="true">
+        <div class="section-bg-img parallax" data-speed="0.1" style="background-image:url('assets/images/skyline.jpg')"></div>
+      </div>
       <div class="container cta-inner">
         <div class="cta-copy reveal">
           <p class="eyebrow eyebrow-light">בואו נדבר</p>
