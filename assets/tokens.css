@@ -47,9 +47,9 @@
   --line-accent:   rgba(169, 118, 75, 0.40);
 
   /* ---------- Typography ---------- */
-  --font-display: "Heebo", system-ui, sans-serif;
-  --font-body:    "Heebo", system-ui, sans-serif;
-  --font-serif:   "Frank Ruhl Libre", Georgia, serif;
+  --font-display: "Secular One", system-ui, sans-serif;          /* heavy geometric display — echoes the logo */
+  --font-body:    "IBM Plex Sans Hebrew", system-ui, sans-serif; /* modern professional text */
+  --font-serif:   "IBM Plex Sans Hebrew", system-ui, sans-serif; /* (kept for backwards-compat) */
 
   /* Fluid type ramp (mobile → desktop) */
   --fs-eyebrow:  0.8125rem;                          /* 13px labels */
@@ -61,11 +61,11 @@
   --fs-h1:       clamp(2.25rem, 1.5rem + 3.6vw, 4.25rem);    /* 36→68 */
   --fs-mega:     clamp(4.5rem, 2.5rem + 9vw, 9rem);          /* the "30" */
 
-  --lh-tight:   1.05;
-  --lh-snug:    1.2;
-  --lh-normal:  1.6;
-  --tracking-eyebrow: 0.18em;
-  --tracking-tight:  -0.01em;
+  --lh-tight:   1.08;
+  --lh-snug:    1.22;
+  --lh-normal:  1.65;
+  --tracking-eyebrow: 0.04em;  /* gentle — Hebrew dislikes wide tracking */
+  --tracking-tight:  0em;      /* no negative tracking on Hebrew headings */
 
   /* ---------- Spacing scale (8pt) ---------- */
   --sp-1:  0.25rem;
