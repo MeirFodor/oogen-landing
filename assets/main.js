@@ -128,34 +128,24 @@
   /* ---- Single-open FAQ accordion with smooth open AND close ---- */
   var faqItems = Array.prototype.slice.call(document.querySelectorAll(".faq-item"));
 
-  function faqOpen(item) {
+  function faqAnimate(item, open) {
     var body = item.querySelector(".faq-body");
-    item.open = true;
-    if (!body || reduceMotion) return;
-    body.style.gridTemplateRows = "0fr";
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () { body.style.gridTemplateRows = "1fr"; });
-    });
-    body.addEventListener("transitionend", function clear(e) {
+    if (!body) return;
+    if (reduceMotion) { item.open = open; return; }
+    // cancel any in-flight transition handler on this item
+    if (body._faqEnd) { body.removeEventListener("transitionend", body._faqEnd); body._faqEnd = null; }
+    if (open) item.open = true;                       // content must exist before measuring
+    body.style.gridTemplateRows = open ? "0fr" : "1fr";
+    void body.offsetHeight;                            // commit the start value synchronously (no rAF lag)
+    body.style.gridTemplateRows = open ? "1fr" : "0fr";
+    var end = function (e) {
       if (e.target !== body || e.propertyName !== "grid-template-rows") return;
-      body.style.gridTemplateRows = ""; // hand back to CSS
-      body.removeEventListener("transitionend", clear);
-    });
-  }
-
-  function faqClose(item) {
-    var body = item.querySelector(".faq-body");
-    if (!body || reduceMotion) { item.open = false; return; }
-    body.style.gridTemplateRows = "1fr";
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () { body.style.gridTemplateRows = "0fr"; });
-    });
-    body.addEventListener("transitionend", function done(e) {
-      if (e.target !== body || e.propertyName !== "grid-template-rows") return;
-      item.open = false;
-      body.style.gridTemplateRows = "";
-      body.removeEventListener("transitionend", done);
-    });
+      body.removeEventListener("transitionend", end); body._faqEnd = null;
+      if (!open) item.open = false;                    // set state before clearing inline (no flash)
+      body.style.gridTemplateRows = "";                // hand back to CSS
+    };
+    body._faqEnd = end;
+    body.addEventListener("transitionend", end);
   }
 
   faqItems.forEach(function (item) {
@@ -164,10 +154,10 @@
     summary.addEventListener("click", function (e) {
       e.preventDefault();
       if (item.open) {
-        faqClose(item);
+        faqAnimate(item, false);
       } else {
-        faqItems.forEach(function (other) { if (other !== item && other.open) faqClose(other); });
-        faqOpen(item);
+        faqItems.forEach(function (other) { if (other !== item && other.open) faqAnimate(other, false); });
+        faqAnimate(item, true);
       }
     });
   });

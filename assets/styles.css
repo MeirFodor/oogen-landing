@@ -812,6 +812,8 @@ p, li, blockquote { text-wrap: pretty; }
 /* ============================================================
    WHY US — pillars + credibility band
    ============================================================ */
+/* the credibility band ends the section flush — no cream gap before the clients section */
+#why { padding-bottom: 0; }
 .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.5rem, 4vw, 3rem); }
 .pillar { padding-top: var(--sp-5); border-top: 2px solid var(--copper); }
 .pillar-icon {
