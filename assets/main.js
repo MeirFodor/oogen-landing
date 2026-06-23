@@ -43,6 +43,16 @@
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
 
+  /* ---- Clients marquee: duplicate items for a seamless loop ---- */
+  var marqueeTrack = document.querySelector(".marquee-track");
+  if (marqueeTrack) {
+    Array.prototype.slice.call(marqueeTrack.children).forEach(function (item) {
+      var clone = item.cloneNode(true);
+      clone.setAttribute("aria-hidden", "true");
+      marqueeTrack.appendChild(clone);
+    });
+  }
+
   /* ---- Parallax on background image layers ---- */
   var parallaxEls = Array.prototype.slice.call(document.querySelectorAll(".parallax"));
   var parallaxTicking = false;
