@@ -873,10 +873,12 @@ p, li, blockquote { text-wrap: pretty; }
 .marquee {
   margin-top: clamp(2rem, 4vw, 3.5rem);
   overflow: hidden;
+  direction: ltr; /* left-align the overflowing track so it overflows RIGHT (new cubes enter from the right as it scrolls left) */
   -webkit-mask: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
   mask: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
 }
-.marquee-track { display: flex; gap: var(--sp-4); width: max-content; will-change: transform; }
+/* LTR track so content overflows to the right and new cubes keep entering as it scrolls left (RTL page would empty the right edge) */
+.marquee-track { display: flex; gap: var(--sp-4); width: max-content; will-change: transform; direction: ltr; }
 .client {
   flex: none;
   display: grid; place-items: center;
@@ -896,7 +898,7 @@ p, li, blockquote { text-wrap: pretty; }
 .client-name {
   font-family: var(--font-body); font-weight: 700;
   font-size: 1.0625rem; line-height: 1.25; text-align: center;
-  color: var(--ink-soft);
+  color: var(--ink-soft); direction: rtl;
   transition: color var(--dur) var(--ease);
 }
 .client:hover .client-name { color: var(--copper-dark); }
