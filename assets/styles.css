@@ -491,8 +491,39 @@ p, li, blockquote { text-wrap: pretty; }
 }
 .faq-plus::after { transform: translateY(-50%) rotate(90deg); transition: transform var(--dur) var(--ease); }
 .faq-item[open] .faq-plus::after { transform: translateY(-50%) rotate(0); }
-.faq-body { padding: 0 var(--sp-5) var(--sp-5); }
-.faq-body p { color: var(--text-soft); max-width: 64ch; }
+/* smooth open/close via grid-template-rows (0fr → 1fr) */
+.faq-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.42s var(--ease-out);
+}
+.faq-item[open] .faq-body { grid-template-rows: 1fr; }
+.faq-body > p {
+  overflow: hidden; min-height: 0; margin: 0;
+  padding: 0 var(--sp-5) var(--sp-5);
+  color: var(--text-soft); max-width: 64ch;
+}
+
+/* FAQ over the pavilion photo — dark glass treatment */
+.section-faq { background: var(--charcoal-900); color: var(--text-on-dark); }
+.section-faq .section-bg::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(22,24,27,0.90), rgba(22,24,27,0.85) 50%, rgba(22,24,27,0.93));
+}
+.section-faq .section-title { color: #fff; }
+.section-faq .faq-item {
+  background: rgba(255,255,255,0.055);
+  border-color: rgba(255,255,255,0.14);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
+.section-faq .faq-item[open] {
+  background: rgba(255,255,255,0.09);
+  border-color: var(--line-accent); box-shadow: none;
+}
+.section-faq .faq-item summary { color: #fff; }
+.section-faq .faq-body > p { color: var(--text-on-dark-soft); }
+.section-faq .faq-plus::before,
+.section-faq .faq-plus::after { background: var(--copper-bright); }
 
 /* ============================================================
    FOUNDER
