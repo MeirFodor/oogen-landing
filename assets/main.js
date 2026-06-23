@@ -125,12 +125,49 @@
     counters.forEach(function (el) { el.textContent = el.getAttribute("data-target"); });
   }
 
-  /* ---- Single-open FAQ accordion ---- */
+  /* ---- Single-open FAQ accordion with smooth open AND close ---- */
   var faqItems = Array.prototype.slice.call(document.querySelectorAll(".faq-item"));
+
+  function faqOpen(item) {
+    var body = item.querySelector(".faq-body");
+    item.open = true;
+    if (!body || reduceMotion) return;
+    body.style.gridTemplateRows = "0fr";
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { body.style.gridTemplateRows = "1fr"; });
+    });
+    body.addEventListener("transitionend", function clear(e) {
+      if (e.target !== body || e.propertyName !== "grid-template-rows") return;
+      body.style.gridTemplateRows = ""; // hand back to CSS
+      body.removeEventListener("transitionend", clear);
+    });
+  }
+
+  function faqClose(item) {
+    var body = item.querySelector(".faq-body");
+    if (!body || reduceMotion) { item.open = false; return; }
+    body.style.gridTemplateRows = "1fr";
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { body.style.gridTemplateRows = "0fr"; });
+    });
+    body.addEventListener("transitionend", function done(e) {
+      if (e.target !== body || e.propertyName !== "grid-template-rows") return;
+      item.open = false;
+      body.style.gridTemplateRows = "";
+      body.removeEventListener("transitionend", done);
+    });
+  }
+
   faqItems.forEach(function (item) {
-    item.addEventListener("toggle", function () {
+    var summary = item.querySelector("summary");
+    if (!summary) return;
+    summary.addEventListener("click", function (e) {
+      e.preventDefault();
       if (item.open) {
-        faqItems.forEach(function (other) { if (other !== item) other.open = false; });
+        faqClose(item);
+      } else {
+        faqItems.forEach(function (other) { if (other !== item && other.open) faqClose(other); });
+        faqOpen(item);
       }
     });
   });

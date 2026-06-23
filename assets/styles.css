@@ -380,11 +380,11 @@ p, li, blockquote { text-wrap: pretty; }
 }
 .ticks li::before {
   content: "";
-  position: absolute; inset-inline-start: 0; top: 0.45em;
-  width: 12px; height: 7px;
-  border-inline-start: 2px solid var(--copper-bright);
+  position: absolute; inset-inline-start: 2px; top: 0.2em;
+  width: 7px; height: 12px;
+  border-right: 2px solid var(--copper-bright);
   border-bottom: 2px solid var(--copper-bright);
-  transform: rotate(-45deg);
+  transform: rotate(45deg);
 }
 
 /* ============================================================
@@ -587,11 +587,11 @@ p, li, blockquote { text-wrap: pretty; }
   color: var(--text-on-dark); font-size: var(--fs-small);
 }
 .cta-list li::before {
-  content: ""; position: absolute; inset-inline-start: 0; top: 0.4em;
-  width: 11px; height: 6px;
-  border-inline-start: 2px solid var(--copper-bright);
+  content: ""; position: absolute; inset-inline-start: 2px; top: 0.15em;
+  width: 6px; height: 11px;
+  border-right: 2px solid var(--copper-bright);
   border-bottom: 2px solid var(--copper-bright);
-  transform: rotate(-45deg);
+  transform: rotate(45deg);
 }
 
 .cta-form-wrap { position: relative; }
