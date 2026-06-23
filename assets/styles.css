@@ -491,15 +491,15 @@ p, li, blockquote { text-wrap: pretty; }
 }
 .faq-plus::after { transform: translateY(-50%) rotate(90deg); transition: transform var(--dur) var(--ease); }
 .faq-item[open] .faq-plus::after { transform: translateY(-50%) rotate(0); }
-/* smooth open/close via grid-template-rows (0fr → 1fr) */
+/* smooth open/close via explicit height animation (JS-measured; Safari-safe) */
 .faq-body {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.42s var(--ease-out);
+  overflow: hidden;
+  height: 0;
+  transition: height 0.4s var(--ease-out);
 }
-.faq-item[open] .faq-body { grid-template-rows: 1fr; }
+.faq-item[open] .faq-body { height: auto; } /* no-JS fallback */
 .faq-body > p {
-  overflow: hidden; min-height: 0; margin: 0;
+  margin: 0;
   padding: 0 var(--sp-5) var(--sp-5);
   color: var(--text-soft); max-width: 64ch;
 }

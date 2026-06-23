@@ -134,15 +134,25 @@
     if (reduceMotion) { item.open = open; return; }
     // cancel any in-flight transition handler on this item
     if (body._faqEnd) { body.removeEventListener("transitionend", body._faqEnd); body._faqEnd = null; }
-    if (open) item.open = true;                       // content must exist before measuring
-    body.style.gridTemplateRows = open ? "0fr" : "1fr";
-    void body.offsetHeight;                            // commit the start value synchronously (no rAF lag)
-    body.style.gridTemplateRows = open ? "1fr" : "0fr";
+    if (open) {
+      item.open = true;                 // content must exist before measuring
+      body.style.height = "0px";
+      void body.offsetHeight;           // commit start value synchronously
+      body.style.height = body.scrollHeight + "px";
+    } else {
+      body.style.height = body.scrollHeight + "px"; // pin current height (from auto)
+      void body.offsetHeight;
+      body.style.height = "0px";
+    }
     var end = function (e) {
-      if (e.target !== body || e.propertyName !== "grid-template-rows") return;
+      if (e.target !== body || e.propertyName !== "height") return;
       body.removeEventListener("transitionend", end); body._faqEnd = null;
-      if (!open) item.open = false;                    // set state before clearing inline (no flash)
-      body.style.gridTemplateRows = "";                // hand back to CSS
+      if (open) {
+        body.style.height = "auto";     // let content reflow (responsive) once open
+      } else {
+        item.open = false;
+        body.style.height = "";         // hand back to CSS (height: 0)
+      }
     };
     body._faqEnd = end;
     body.addEventListener("transitionend", end);
