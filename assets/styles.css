@@ -869,32 +869,39 @@ p, li, blockquote { text-wrap: pretty; }
 /* ============================================================
    CLIENTS / PROJECTS marquee
    ============================================================ */
-.section-clients { background: var(--surface); }
+.section-clients { background: var(--cream); }
 .marquee {
   margin-top: clamp(2rem, 4vw, 3.5rem);
   overflow: hidden;
   -webkit-mask: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
   mask: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
 }
-.marquee-track { display: flex; gap: var(--sp-4); width: max-content; animation: marquee 50s linear infinite; }
+.marquee-track { display: flex; gap: var(--sp-4); width: max-content; animation: marquee 55s linear infinite; }
 .marquee:hover .marquee-track { animation-play-state: paused; }
 @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 .client {
-  display: flex; align-items: center; gap: var(--sp-4);
-  padding: var(--sp-4) var(--sp-5);
-  background: var(--cream); border: 1px solid var(--line);
-  border-radius: var(--r-md); min-width: 268px;
-}
-.client-logo {
-  width: 54px; height: 54px; flex: none;
+  flex: none;
   display: grid; place-items: center;
-  border-radius: var(--r-sm); background: var(--white);
-  border: 1px solid var(--line); color: var(--copper);
+  width: 232px; height: 108px;
+  padding: var(--sp-4) var(--sp-5);
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-md);
 }
-.client-logo svg { width: 30px; height: 30px; fill: currentColor; }
-.client-info { display: flex; flex-direction: column; gap: 2px; }
-.client-project { font-family: var(--font-body); font-weight: 700; color: var(--charcoal); font-size: 1.0625rem; }
-.client-company { font-size: var(--fs-small); color: var(--text-soft); }
+/* logo cubes: unified grayscale, full colour on hover */
+.client-logo-img {
+  max-width: 100%; max-height: 58px; width: auto; object-fit: contain;
+  filter: grayscale(1) opacity(0.62);
+  transition: filter var(--dur) var(--ease);
+}
+.client:hover .client-logo-img { filter: grayscale(0) opacity(1); }
+/* text cubes (no logo yet) */
+.client-name {
+  font-family: var(--font-body); font-weight: 700;
+  font-size: 1.0625rem; line-height: 1.25; text-align: center;
+  color: var(--ink-soft);
+  transition: color var(--dur) var(--ease);
+}
+.client:hover .client-name { color: var(--copper-dark); }
 
 @media (max-width: 820px) {
   .pillars { grid-template-columns: 1fr; gap: var(--sp-6); }
