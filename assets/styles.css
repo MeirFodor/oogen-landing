@@ -876,9 +876,7 @@ p, li, blockquote { text-wrap: pretty; }
   -webkit-mask: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
   mask: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
 }
-.marquee-track { display: flex; gap: var(--sp-4); width: max-content; animation: marquee 55s linear infinite; }
-.marquee:hover .marquee-track { animation-play-state: paused; }
-@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee-track { display: flex; gap: var(--sp-4); width: max-content; will-change: transform; }
 .client {
   flex: none;
   display: grid; place-items: center;

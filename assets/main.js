@@ -43,14 +43,59 @@
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
 
-  /* ---- Clients marquee: duplicate items for a seamless loop ---- */
+  /* ---- Clients marquee: self-filling, seamless infinite loop ---- */
+  var marquee = document.querySelector(".marquee");
   var marqueeTrack = document.querySelector(".marquee-track");
-  if (marqueeTrack) {
-    Array.prototype.slice.call(marqueeTrack.children).forEach(function (item) {
-      var clone = item.cloneNode(true);
-      clone.setAttribute("aria-hidden", "true");
-      marqueeTrack.appendChild(clone);
-    });
+  if (marquee && marqueeTrack) {
+    var baseItems = Array.prototype.slice.call(marqueeTrack.children);
+    var marqueeAnim = null;
+
+    function setWidth() {
+      var gap = parseFloat(getComputedStyle(marqueeTrack).gap) || 0;
+      var w = 0;
+      baseItems.forEach(function (el) { w += el.getBoundingClientRect().width; });
+      return w + gap * baseItems.length; // one set = N items + the N gaps that precede the next set
+    }
+
+    function buildMarquee() {
+      // cancel any existing track animations (avoid stacking on resize/rebuild)
+      if (marqueeTrack.getAnimations) {
+        marqueeTrack.getAnimations().forEach(function (a) { a.cancel(); });
+      }
+      marqueeAnim = null;
+      // reset to just the base items
+      while (marqueeTrack.children.length > baseItems.length) {
+        marqueeTrack.removeChild(marqueeTrack.lastChild);
+      }
+      var sw = setWidth();
+      if (sw <= 0) return;
+      // clone whole sets until the track comfortably overflows (always full + room to loop)
+      var need = marquee.clientWidth * 2 + sw;
+      var guard = 0;
+      while (marqueeTrack.scrollWidth < need && guard < 60) {
+        baseItems.forEach(function (el) {
+          var c = el.cloneNode(true);
+          c.setAttribute("aria-hidden", "true");
+          marqueeTrack.appendChild(c);
+        });
+        guard++;
+      }
+      if (reduceMotion) return;
+      var pxPerSec = 55;
+      marqueeAnim = marqueeTrack.animate(
+        [{ transform: "translateX(0)" }, { transform: "translateX(-" + sw + "px)" }],
+        { duration: (sw / pxPerSec) * 1000, iterations: Infinity, easing: "linear" }
+      );
+    }
+
+    buildMarquee();
+    marquee.addEventListener("mouseenter", function () { if (marqueeAnim) marqueeAnim.pause(); });
+    marquee.addEventListener("mouseleave", function () { if (marqueeAnim) marqueeAnim.play(); });
+    var marqueeRT;
+    window.addEventListener("resize", function () {
+      clearTimeout(marqueeRT);
+      marqueeRT = setTimeout(buildMarquee, 200);
+    }, { passive: true });
   }
 
   /* ---- Parallax on background image layers ---- */
