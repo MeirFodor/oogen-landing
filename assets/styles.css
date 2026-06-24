@@ -926,6 +926,7 @@ p, li, blockquote { text-wrap: pretty; }
 
 @media (max-width: 820px) {
   .header-nav { display: none; }
+  .header-cta { margin-inline-start: auto; } /* nav hidden — push CTA to the far (left) edge */
   .why-grid { grid-template-columns: 1fr; }
   .why-stat { position: static; }
   .stages { grid-template-columns: 1fr; }
@@ -940,7 +941,11 @@ p, li, blockquote { text-wrap: pretty; }
   .field-row { grid-template-columns: 1fr; }
   .hero-actions { flex-direction: column; align-items: stretch; }
   .hero-actions .btn { width: 100%; }
-  .header-cta { display: none; }
+  .header-cta { padding: 0.6em 1.05em; font-size: 0.875rem; }
+  /* keep the 3 hero stats on one row: number over label, compact */
+  .hero-badges { flex-wrap: nowrap; gap: var(--sp-3); justify-content: space-between; }
+  .hero-badges li { flex-direction: column; align-items: flex-start; gap: 1px; font-size: 0.78rem; line-height: 1.2; }
+  .hero-badges span { font-size: 1.3rem; }
   .footer-inner { flex-direction: column; align-items: flex-start; }
   .float-wa { padding: 0; width: 54px; height: 54px; justify-content: center; inset-block-end: 16px; inset-inline-start: 16px; }
   .float-wa-label { display: none; }

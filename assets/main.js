@@ -89,10 +89,19 @@
     }
 
     buildMarquee();
-    marquee.addEventListener("mouseenter", function () { if (marqueeAnim) marqueeAnim.pause(); });
-    marquee.addEventListener("mouseleave", function () { if (marqueeAnim) marqueeAnim.play(); });
+    var lastMarqueeW = marquee.clientWidth;
+    // pause-on-hover only on hover-capable devices — on touch, a tap fires mouseenter
+    // but never mouseleave, which would freeze the strip
+    if (window.matchMedia && window.matchMedia("(hover: hover)").matches) {
+      marquee.addEventListener("mouseenter", function () { if (marqueeAnim) marqueeAnim.pause(); });
+      marquee.addEventListener("mouseleave", function () { if (marqueeAnim) marqueeAnim.play(); });
+    }
     var marqueeRT;
     window.addEventListener("resize", function () {
+      // mobile browsers fire resize when the URL bar shows/hides (height only) —
+      // rebuilding then would reset/jump the loop, so only rebuild on a real width change
+      if (marquee.clientWidth === lastMarqueeW) return;
+      lastMarqueeW = marquee.clientWidth;
       clearTimeout(marqueeRT);
       marqueeRT = setTimeout(buildMarquee, 200);
     }, { passive: true });
