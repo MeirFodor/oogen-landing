@@ -2,3 +2,5 @@
 *.log
 .netlify/
 assets/images/hf_*.png
+node_modules/
+_site/

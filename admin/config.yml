@@ -1,0 +1,154 @@
+backend:
+  name: github
+  repo: MeirFodor/oogen-landing
+  branch: main
+
+# commit messages in Hebrew-friendly format
+site_url: https://oogen.netlify.app
+display_url: https://oogen.netlify.app
+locale: he
+
+media_folder: "assets/images/uploads"
+public_folder: "/assets/images/uploads"
+
+collections:
+  - name: site
+    label: "תוכן הדף"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: content
+        label: "טקסטים של הדף"
+        file: content.json
+        fields:
+          - label: "אזור פתיחה (Hero)"
+            name: hero
+            widget: object
+            collapsed: true
+            fields:
+              - { label: "תווית עליונה", name: eyebrow, widget: string }
+              - { label: "כותרת ראשית", name: title, widget: text, hint: "למעבר שורה השאירו את התגית <br>" }
+              - { label: "תת-כותרת", name: sub, widget: text }
+              - { label: "כפתור ראשי", name: ctaPrimary, widget: string }
+              - { label: "כפתור משני", name: ctaSecondary, widget: string }
+              - { label: "מספר 1", name: badge1num, widget: string }
+              - { label: "תווית 1", name: badge1label, widget: string }
+              - { label: "מספר 2", name: badge2num, widget: string }
+              - { label: "תווית 2", name: badge2label, widget: string }
+              - { label: "מספר 3", name: badge3num, widget: string }
+              - { label: "תווית 3", name: badge3label, widget: string }
+
+          - label: "האתגר (Pain)"
+            name: problem
+            widget: object
+            collapsed: true
+            fields:
+              - { label: "תווית", name: eyebrow, widget: string }
+              - { label: "כותרת", name: title, widget: text }
+              - { label: "פסקת פתיחה", name: lead, widget: text }
+              - { label: "כרטיס 1 — כותרת", name: card1title, widget: string }
+              - { label: "כרטיס 1 — טקסט", name: card1text, widget: text }
+              - { label: "כרטיס 2 — כותרת", name: card2title, widget: string }
+              - { label: "כרטיס 2 — טקסט", name: card2text, widget: text }
+              - { label: "כרטיס 3 — כותרת", name: card3title, widget: string }
+              - { label: "כרטיס 3 — טקסט", name: card3text, widget: text }
+              - { label: "כרטיס 4 — כותרת", name: card4title, widget: string }
+              - { label: "כרטיס 4 — טקסט", name: card4text, widget: text }
+
+          - label: "הפתרון (Solution)"
+            name: solution
+            widget: object
+            collapsed: true
+            fields:
+              - { label: "תווית", name: eyebrow, widget: string }
+              - { label: "כותרת", name: title, widget: text }
+              - { label: "פסקת פתיחה", name: lead, widget: text }
+              - { label: "שלב א' — תת-תווית", name: stage1kicker, widget: string }
+              - { label: "שלב א' — כותרת", name: stage1title, widget: string }
+              - { label: "שלב א' — סעיף 1", name: stage1b1, widget: text }
+              - { label: "שלב א' — סעיף 2", name: stage1b2, widget: text }
+              - { label: "שלב א' — סעיף 3", name: stage1b3, widget: text }
+              - { label: "שלב א' — סעיף 4", name: stage1b4, widget: text }
+              - { label: "שלב ב' — תת-תווית", name: stage2kicker, widget: string }
+              - { label: "שלב ב' — כותרת", name: stage2title, widget: string }
+              - { label: "שלב ב' — סעיף 1", name: stage2b1, widget: text }
+              - { label: "שלב ב' — סעיף 2", name: stage2b2, widget: text }
+              - { label: "שלב ב' — סעיף 3", name: stage2b3, widget: text }
+              - { label: "שלב ב' — סעיף 4", name: stage2b4, widget: text }
+
+          - label: "למה עוגן (Why)"
+            name: why
+            widget: object
+            collapsed: true
+            fields:
+              - { label: "תווית", name: eyebrow, widget: string }
+              - { label: "כותרת", name: title, widget: text }
+              - { label: "פסקת פתיחה", name: lead, widget: text }
+              - { label: "יתרון 1 — כותרת", name: pillar1title, widget: string }
+              - { label: "יתרון 1 — טקסט", name: pillar1text, widget: text }
+              - { label: "יתרון 2 — כותרת", name: pillar2title, widget: string }
+              - { label: "יתרון 2 — טקסט", name: pillar2text, widget: text }
+              - { label: "יתרון 3 — כותרת", name: pillar3title, widget: string }
+              - { label: "יתרון 3 — טקסט", name: pillar3text, widget: text }
+              - { label: "תווית ה-30 שנה", name: stat30label, widget: text, hint: "למעבר שורה השאירו את <br>" }
+              - { label: "ציטוט", name: quote, widget: text }
+
+          - label: "לקוחות ופרויקטים"
+            name: clients
+            widget: object
+            collapsed: true
+            fields:
+              - { label: "תווית", name: eyebrow, widget: string }
+              - { label: "כותרת", name: title, widget: text }
+              - { label: "פסקת פתיחה", name: lead, widget: text }
+
+          - label: "שאלות ותשובות (FAQ)"
+            name: faq
+            widget: object
+            collapsed: true
+            fields:
+              - { label: "תווית", name: eyebrow, widget: string }
+              - { label: "כותרת", name: title, widget: text }
+              - { label: "שאלה 1", name: q1, widget: string }
+              - { label: "תשובה 1", name: a1, widget: text }
+              - { label: "שאלה 2", name: q2, widget: string }
+              - { label: "תשובה 2", name: a2, widget: text }
+              - { label: "שאלה 3", name: q3, widget: string }
+              - { label: "תשובה 3", name: a3, widget: text }
+              - { label: "שאלה 4", name: q4, widget: string }
+              - { label: "תשובה 4", name: a4, widget: text }
+
+          - label: "המייסדים (Founder)"
+            name: founder
+            widget: object
+            collapsed: true
+            fields:
+              - { label: "תווית", name: eyebrow, widget: string }
+              - { label: "כותרת", name: title, widget: text }
+              - { label: "ביוגרפיה", name: bio, widget: text }
+              - { label: "שורת קרדיט", name: role, widget: string }
+
+          - label: "קריאה לפעולה + טופס (CTA)"
+            name: cta
+            widget: object
+            collapsed: true
+            fields:
+              - { label: "תווית", name: eyebrow, widget: string }
+              - { label: "כותרת", name: title, widget: text }
+              - { label: "פסקת פתיחה", name: lead, widget: text }
+              - { label: "נקודה 1", name: list1, widget: string }
+              - { label: "נקודה 2", name: list2, widget: string }
+              - { label: "נקודה 3", name: list3, widget: string }
+              - { label: "כפתור שליחה", name: submit, widget: string }
+              - { label: "משפט הרגעה", name: reassure, widget: text }
+
+          - label: "פרטי קשר"
+            name: contact
+            widget: object
+            collapsed: true
+            fields:
+              - { label: "טלפון (תצוגה)", name: phoneDisplay, widget: string }
+              - { label: "טלפון (קישור)", name: phoneHref, widget: string, hint: "בפורמט tel:+972...", pattern: ['^tel:', 'חייב להתחיל ב-tel:'] }
+              - { label: "אימייל (תצוגה)", name: email, widget: string }
+              - { label: "אימייל (קישור)", name: emailHref, widget: string, hint: "בפורמט mailto:..." }

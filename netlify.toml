@@ -2,8 +2,8 @@
 # This folder is the site root (static, no build step).
 
 [build]
-  publish = "."
-  command = ""
+  publish = "_site"
+  command = "npm run build"
 
 # Security headers + sane caching.
 # HTML/CSS/JS always revalidate (ETag) so edits show up immediately — important

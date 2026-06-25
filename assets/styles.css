@@ -260,7 +260,7 @@ p, li, blockquote { text-wrap: pretty; }
   color: var(--text-on-dark-soft);
   display: flex; align-items: baseline; gap: 0.5rem;
 }
-.hero-badges span {
+.hero-badges .badge-num {
   font-family: var(--font-display);
   font-weight: 800;
   font-size: 1.6rem;
@@ -945,7 +945,7 @@ p, li, blockquote { text-wrap: pretty; }
   /* keep the 3 hero stats on one row: number over label, compact */
   .hero-badges { flex-wrap: nowrap; gap: var(--sp-3); justify-content: space-between; }
   .hero-badges li { flex-direction: column; align-items: flex-start; gap: 1px; font-size: 0.78rem; line-height: 1.2; }
-  .hero-badges span { font-size: 1.3rem; }
+  .hero-badges .badge-num { font-size: 1.3rem; }
   .footer-inner { flex-direction: column; align-items: flex-start; }
   .float-wa { padding: 0; width: 54px; height: 54px; justify-content: center; inset-block-end: 16px; inset-inline-start: 16px; }
   .float-wa-label { display: none; }
