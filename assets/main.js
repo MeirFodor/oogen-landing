@@ -143,6 +143,7 @@
     var dotB = section.querySelector(".story-dot-b");
     var bulletsA = stages[0].querySelectorAll(".ticks li");
     var bulletsB = stages[1].querySelectorAll(".ticks li");
+    var head = section.querySelector(".section-head");
     var mq = window.matchMedia("(min-width: 901px)");
     var active = false, ticking = false;
 
@@ -160,15 +161,13 @@
       }
     }
     function apply(p) {
-      var a = seg(p, 0.03, 0.14);
-      set(stages[0], a, lerp(26, 0, a));
-      bullets(bulletsA, 0.14, p);
+      set(stages[0], lerp(0.16, 1, seg(p, 0.05, 0.20)), 0);
+      bullets(bulletsA, 0.18, p);
       if (fill) fill.style.transform = "scaleX(" + seg(p, 0.06, 0.9).toFixed(3) + ")";
-      if (dotA) dotA.classList.toggle("on", p > 0.1);
-      if (dotB) dotB.classList.toggle("on", p > 0.58);
-      var b = seg(p, 0.55, 0.68);
-      set(stages[1], lerp(0.18, 1, b), lerp(26, 0, b));
-      bullets(bulletsB, 0.68, p);
+      if (dotA) dotA.classList.toggle("on", p > 0.05);  // right dot lights as the story starts
+      if (dotB) dotB.classList.toggle("on", p > 0.9);   // left dot lights as it ends
+      set(stages[1], lerp(0.16, 1, seg(p, 0.55, 0.72)), 0);
+      bullets(bulletsB, 0.62, p);
     }
     function onScroll() {
       ticking = false;
@@ -184,10 +183,12 @@
       if (fill) fill.style.transform = "";
       if (dotA) dotA.classList.remove("on");
       if (dotB) dotB.classList.remove("on");
+      if (head) { head.style.opacity = ""; head.style.transform = ""; }
     }
     function activate() {
       if (active) return; active = true;
       section.classList.add("story-on");
+      if (head) { head.style.opacity = "1"; head.style.transform = "none"; } // keep the section header visible during the pin
       window.addEventListener("scroll", reqScroll, { passive: true });
       window.addEventListener("resize", reqScroll, { passive: true });
       onScroll();
