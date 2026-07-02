@@ -131,6 +131,80 @@
     window.addEventListener("resize", requestParallax, { passive: true });
   }
 
+  /* ---- Solution: pinned scroll-story (desktop only) ---- */
+  (function () {
+    var section = document.getElementById("solution");
+    if (!section) return;
+    var pin = section.querySelector(".solution-pin");
+    var stages = section.querySelectorAll(".stage");
+    if (!pin || stages.length < 2) return;
+    var fill = section.querySelector(".story-fill");
+    var dotA = section.querySelector(".story-dot-a");
+    var dotB = section.querySelector(".story-dot-b");
+    var bulletsA = stages[0].querySelectorAll(".ticks li");
+    var bulletsB = stages[1].querySelectorAll(".ticks li");
+    var mq = window.matchMedia("(min-width: 901px)");
+    var active = false, ticking = false;
+
+    function seg(p, s, e) { return Math.max(0, Math.min(1, (p - s) / (e - s))); }
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function set(el, o, y) {
+      if (!el) return;
+      el.style.opacity = o.toFixed(3);
+      el.style.transform = y > 0.1 ? "translateY(" + y.toFixed(1) + "px)" : "none";
+    }
+    function bullets(list, base, p) {
+      for (var i = 0; i < list.length; i++) {
+        var t = seg(p, base + i * 0.045, base + 0.09 + i * 0.045);
+        set(list[i], lerp(0.1, 1, t), lerp(10, 0, t));
+      }
+    }
+    function apply(p) {
+      var a = seg(p, 0.03, 0.14);
+      set(stages[0], a, lerp(26, 0, a));
+      bullets(bulletsA, 0.14, p);
+      if (fill) fill.style.transform = "scaleX(" + seg(p, 0.06, 0.9).toFixed(3) + ")";
+      if (dotA) dotA.classList.toggle("on", p > 0.1);
+      if (dotB) dotB.classList.toggle("on", p > 0.58);
+      var b = seg(p, 0.55, 0.68);
+      set(stages[1], lerp(0.18, 1, b), lerp(26, 0, b));
+      bullets(bulletsB, 0.68, p);
+    }
+    function onScroll() {
+      ticking = false;
+      var total = pin.offsetHeight - window.innerHeight;
+      if (total <= 0) return;
+      apply(Math.max(0, Math.min(1, -pin.getBoundingClientRect().top / total)));
+    }
+    function reqScroll() { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }
+    function clearInline() {
+      [stages[0], stages[1]].concat([].slice.call(bulletsA), [].slice.call(bulletsB)).forEach(function (el) {
+        if (el) { el.style.opacity = ""; el.style.transform = ""; }
+      });
+      if (fill) fill.style.transform = "";
+      if (dotA) dotA.classList.remove("on");
+      if (dotB) dotB.classList.remove("on");
+    }
+    function activate() {
+      if (active) return; active = true;
+      section.classList.add("story-on");
+      window.addEventListener("scroll", reqScroll, { passive: true });
+      window.addEventListener("resize", reqScroll, { passive: true });
+      onScroll();
+    }
+    function deactivate() {
+      if (!active) return; active = false;
+      section.classList.remove("story-on");
+      window.removeEventListener("scroll", reqScroll);
+      window.removeEventListener("resize", reqScroll);
+      clearInline();
+    }
+    function check() { (mq.matches && !reduceMotion) ? activate() : deactivate(); }
+    if (mq.addEventListener) mq.addEventListener("change", check); else mq.addListener(check);
+    window.addEventListener("resize", check, { passive: true }); // re-evaluate on any resize (covers browsers that don't fire mq change)
+    check();
+  })();
+
   /* ---- Reveal on scroll ---- */
   var revealEls = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
   if (reduceMotion || !("IntersectionObserver" in window)) {

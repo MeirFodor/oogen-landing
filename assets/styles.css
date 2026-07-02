@@ -15,7 +15,7 @@ body {
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  overflow-x: clip; /* clip (not hidden) so it doesn't create a scroll container that breaks position:sticky */
 }
 
 img, svg { display: block; max-width: 100%; }
@@ -917,6 +917,50 @@ p, li, blockquote { text-wrap: pretty; }
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none; }
   .marquee { overflow-x: auto; -webkit-mask: none; mask: none; }
+}
+
+/* ============================================================
+   SOLUTION — pinned scroll-story (desktop only, JS-activated)
+   Everything is gated on #solution.story-on, which main.js adds
+   only on wide screens without reduced-motion. Otherwise the
+   section renders exactly as a normal section.
+   ============================================================ */
+.story-line { display: none; }
+
+@media (min-width: 901px) {
+  #solution.story-on { padding-block: 0; }
+  #solution.story-on .solution-pin { height: 220vh; }
+  #solution.story-on .solution-sticky {
+    position: sticky; top: 0;
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: flex-start;
+    padding-block: clamp(94px, 12vh, 132px) 5vh; /* top clears the fixed nav; header stays visible */
+    overflow: hidden;
+  }
+  #solution.story-on .story-line {
+    display: block; position: relative;
+    height: 2px; background: var(--line-on-dark);
+    width: min(560px, 70%); margin: 0 auto clamp(1.75rem, 3vw, 2.75rem);
+  }
+  .story-fill {
+    position: absolute; inset: 0; background: var(--copper-bright);
+    transform: scaleX(0); transform-origin: right;
+    transition: transform 0.18s ease-out;
+  }
+  .story-dot {
+    position: absolute; top: 50%; width: 12px; height: 12px; border-radius: 50%;
+    background: var(--charcoal-900); border: 2px solid var(--line-on-dark);
+    transform: translateY(-50%);
+    transition: background-color 0.22s ease, border-color 0.22s ease;
+  }
+  .story-dot-a { inset-inline-end: 22%; }
+  .story-dot-b { inset-inline-start: 22%; }
+  .story-dot.on { background: var(--copper-bright); border-color: var(--copper-bright); }
+  #solution.story-on .stage,
+  #solution.story-on .ticks li {
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+    will-change: opacity, transform;
+  }
 }
 
 /* ============================================================
